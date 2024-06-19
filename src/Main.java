@@ -7,6 +7,8 @@ public class Main {
     private static Map<String, GeneralTask> taskMap;
     private static String userName;
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     public static void main(String[] args) {
         taskMap = new HashMap<>();
         taskMap.put("test limited task", new LimitedTimeTask( "taskName1 ", userName, LocalDateTime.now()));
@@ -94,10 +96,8 @@ public class Main {
         }
         else
         {
-            for (Map.Entry<String, GeneralTask> me :
-                    taskMap.entrySet()) {
-                System.out.print(me.getKey() + "\n");
-                //me.getValue().print();
+            for (String key : taskMap.keySet()) {
+                taskMap.get(key).print();
             }
         }
     }
@@ -113,7 +113,7 @@ public class Main {
             case "LimitedTimeTask":
                 System.out.print("enter task date: ");
                 String taskDateString = scanner.nextLine();
-                LocalDateTime taskDate = LocalDateTime.parse(taskDateString);
+                LocalDateTime taskDate = LocalDateTime.parse(taskDateString,formatter);
                 taskMap.put(taskName, new LimitedTimeTask( taskName, userName, taskDate));
                 System.out.print("task created \n");
                 break;
@@ -158,7 +158,7 @@ public class Main {
 
         if (generalTask instanceof LimitedTimeTask) {
             System.out.print("enter end date, format: yyyy-MM-dd HH:mm \n");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
             LocalDateTime date = LocalDateTime.parse(scanner.nextLine(),formatter);
             ((LimitedTimeTask) generalTask).setEndDate(date);
         }

@@ -2,7 +2,6 @@ import java.time.LocalDateTime;
 
 public abstract class GeneralTask {
     private String name;
-
     private String description;
     private String userName;
 

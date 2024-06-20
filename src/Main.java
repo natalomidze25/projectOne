@@ -30,10 +30,9 @@ public class Main {
 
             System.out.print("Enter your choice: ");
             String choiceString = scanner.nextLine();
-            Integer choiceInteger = Integer.valueOf(choiceString);
-            if(choiceInteger > 0){
-                choice = choiceInteger;
-            }
+            try {
+                choice = Integer.valueOf(choiceString);
+            }catch (Exception exception){}
             System.out.println("\n-----------------------------\n");
 
             switch (choice) {

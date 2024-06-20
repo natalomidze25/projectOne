@@ -11,8 +11,8 @@ public class Main {
 
     public static void main(String[] args) {
         taskMap = new HashMap<>();
-        taskMap.put("test limited task", new LimitedTimeTask( "taskName1 ", userName, LocalDateTime.now()));
-        taskMap.put("test repeatable task", new RepeatableTask( "taskName2", userName, 1));
+        taskMap.put("taskName1", new LimitedTimeTask( "desc1","taskName1 ", userName, LocalDateTime.now()));
+        taskMap.put("taskName2", new RepeatableTask( "desc2","taskName2", userName, 1));
 
 
         Scanner scanner = new Scanner(System.in);
@@ -20,12 +20,12 @@ public class Main {
         int choice=0;
 
         do {
-            System.out.println("[1]- Save");
-            System.out.println("[2]- Retrieve tasks");
-            System.out.println("[3]- Update a specific task");
+            System.out.println("[1]- create task");
+            System.out.println("[2]- get task list");
+            System.out.println("[3]- Update task");
             System.out.println("[4]- Register");
-            System.out.println("[5]- Delete a specific task");
-            System.out.println("[6]- Take on a specific task");
+            System.out.println("[5]- Delete task");
+            System.out.println("[6]- get task");
             System.out.println("[7]- Exit\n");
 
             System.out.print("Enter your choice: ");
@@ -108,23 +108,32 @@ public class Main {
 
         System.out.print("enter task name: ");
         String taskName = scanner.nextLine();
+
+        System.out.print("enter task description: ");
+        String taskDesc = scanner.nextLine();
+
+        if(taskMap.containsKey(taskName)){
+            System.out.println("ასეთი სახელით ტასკი უკვე არსებობს\n");
+            return;
+        }
+
         switch (taskType)
         {
             case "LimitedTimeTask":
                 System.out.print("enter task date: ");
                 String taskDateString = scanner.nextLine();
                 LocalDateTime taskDate = LocalDateTime.parse(taskDateString,formatter);
-                taskMap.put(taskName, new LimitedTimeTask( taskName, userName, taskDate));
+                taskMap.put(taskName, new LimitedTimeTask( taskDesc,taskName, userName, taskDate));
                 System.out.print("task created \n");
                 break;
             case "RepeateableTask":
                 System.out.print("enter task execute count: ");
                 int taskExecuteCount = Integer.parseInt(scanner.nextLine());
-                taskMap.put(taskName, new RepeatableTask( taskName, userName, taskExecuteCount));
+                taskMap.put(taskName, new RepeatableTask( taskDesc, taskName, userName, taskExecuteCount));
                 System.out.print("task created \n");
                 break;
             case "BasicTask":
-                taskMap.put(taskName, new GeneralTask( taskName, userName));
+                taskMap.put(taskName, new BasicTask( taskDesc, taskName, userName));
                 System.out.print("task created \n");
                 break;
             default:
@@ -151,10 +160,16 @@ public class Main {
 
         GeneralTask generalTask = taskMap.get(taskName);
 
-        generalTask.setName(taskName);
+        System.out.print("enter task new name: ");
+        String taskNewName = scanner.nextLine();
+
+
+        System.out.print("enter task description: ");
+        String taskDesc = scanner.nextLine();
+
+        generalTask.setName(taskNewName);
         generalTask.setUserName(userName);
-
-
+        generalTask.setDescription(taskDesc);
 
         if (generalTask instanceof LimitedTimeTask) {
             System.out.print("enter end date, format: yyyy-MM-dd HH:mm \n");
@@ -167,6 +182,11 @@ public class Main {
             Integer count = Integer.valueOf(scanner.nextLine());
             ((RepeatableTask) generalTask).setTaskCount(count);
         }
+
+        if(!Objects.equals(taskName, taskNewName)){
+            taskMap.remove(taskName);
+        }
+
         taskMap.put(generalTask.getName(), generalTask);
 
         System.out.printf("task updated\n" );

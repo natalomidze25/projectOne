@@ -1,8 +1,8 @@
 public class RepeatableTask extends GeneralTask {
     private Integer taskCount;
 
-    public RepeatableTask( String name, String userName, Integer taskCount) {
-        super(name, userName);
+    public RepeatableTask(String description, String name, String userName, Integer taskCount) {
+        super(description,name, userName);
         this.taskCount = taskCount;
     }
 
@@ -10,6 +10,7 @@ public class RepeatableTask extends GeneralTask {
     public void print(){
         super.print();
         System.out.println("taskCount: "+getTaskCount());
+        System.out.println("\n-----------\n");
     }
 
     public Integer getTaskCount() {

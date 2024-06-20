@@ -4,8 +4,8 @@ public class LimitedTimeTask extends GeneralTask {
 
     private LocalDateTime endDate;
 
-    public LimitedTimeTask( String name, String userName, LocalDateTime endDate) {
-        super(name, userName);
+    public LimitedTimeTask( String description,String name, String userName, LocalDateTime endDate) {
+        super(description,name, userName);
         this.endDate = endDate;
     }
 
@@ -13,6 +13,7 @@ public class LimitedTimeTask extends GeneralTask {
     public void print(){
         super.print();
         System.out.println("endDate: "+getEndDate());
+        System.out.println("\n-----------\n");
     }
 
     public LocalDateTime getEndDate() {
